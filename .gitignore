@@ -1,0 +1,21 @@
+# IDE
+.vs
+.vscode
+.idea
+
+# Build and Object Folders
+obj/
+bin/
+
+# Nuget pakcages directory
+packages/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
