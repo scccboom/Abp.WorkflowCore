@@ -1,4 +1,4 @@
-# IDE
+# IDEs and editors
 .vs
 .vscode
 .idea
@@ -6,6 +6,7 @@
 # Build and Object Folders
 obj/
 bin/
+App_Data/
 
 # Nuget pakcages directory
 packages/

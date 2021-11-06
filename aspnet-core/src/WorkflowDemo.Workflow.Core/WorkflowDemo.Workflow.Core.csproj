@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WorkflowCore" Version="3.2.5" />
+		<PackageReference Include="WorkflowCore.DSL" Version="3.1.5" />
+		<PackageReference Include="Abp" Version="5.14.0" />
+		<PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="5.14.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.9" />
+	</ItemGroup>
+
+</Project>
