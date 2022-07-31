@@ -22,8 +22,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return 0;
-            int result;
-            var success = int.TryParse(data.ToString(), out result);
+            var success = int.TryParse(data.ToString(), out int result);
             if (success)
                 return result;
             if (data is Enum)
@@ -49,8 +48,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return null;
-            int result;
-            bool isValid = int.TryParse(data.ToString(), out result);
+            bool isValid = int.TryParse(data.ToString(), out int result);
             if (isValid)
                 return result;
             return null;
@@ -64,8 +62,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return 0;
-            double result;
-            return double.TryParse(data.ToString(), out result) ? result : 0;
+            return double.TryParse(data.ToString(), out double result) ? result : 0;
         }
 
         /// <summary>
@@ -86,8 +83,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return null;
-            double result;
-            bool isValid = double.TryParse(data.ToString(), out result);
+            bool isValid = double.TryParse(data.ToString(), out double result);
             if (isValid)
                 return result;
             return null;
@@ -101,8 +97,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return 0;
-            decimal result;
-            return decimal.TryParse(data.ToString(), out result) ? result : 0;
+            return decimal.TryParse(data.ToString(), out decimal result) ? result : 0;
         }
 
         /// <summary>
@@ -123,8 +118,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return null;
-            decimal result;
-            bool isValid = decimal.TryParse(data.ToString(), out result);
+            bool isValid = decimal.TryParse(data.ToString(), out decimal result);
             if (isValid)
                 return result;
             return null;
@@ -154,8 +148,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return DateTime.MinValue;
-            DateTime result;
-            return DateTime.TryParse(data.ToString(), out result) ? result : DateTime.MinValue;
+            return DateTime.TryParse(data.ToString(), out DateTime result) ? result : DateTime.MinValue;
         }
 
         /// <summary>
@@ -166,8 +159,7 @@ namespace Abp.Extensions
         {
             if (data == null)
                 return null;
-            DateTime result;
-            bool isValid = DateTime.TryParse(data.ToString(), out result);
+            bool isValid = DateTime.TryParse(data.ToString(), out DateTime result);
             if (isValid)
                 return result;
             return null;
@@ -187,8 +179,7 @@ namespace Abp.Extensions
             bool? value = GetBool(data);
             if (value != null)
                 return value.Value;
-            bool result;
-            return bool.TryParse(data.ToString(), out result) && result;
+            return bool.TryParse(data.ToString(), out bool result) && result;
         }
 
         /// <summary>
@@ -196,23 +187,16 @@ namespace Abp.Extensions
         /// </summary>
         private static bool? GetBool(this object data)
         {
-            switch (data.ToString().Trim().ToLower())
+            return data.ToString().Trim().ToLower() switch
             {
-                case "0":
-                    return false;
-                case "1":
-                    return true;
-                case "是":
-                    return true;
-                case "否":
-                    return false;
-                case "yes":
-                    return true;
-                case "no":
-                    return false;
-                default:
-                    return null;
-            }
+                "0" => false,
+                "1" => true,
+                "是" => true,
+                "否" => false,
+                "yes" => true,
+                "no" => false,
+                _ => null,
+            };
         }
 
         /// <summary>
@@ -226,8 +210,7 @@ namespace Abp.Extensions
             bool? value = GetBool(data);
             if (value != null)
                 return value.Value;
-            bool result;
-            bool isValid = bool.TryParse(data.ToString(), out result);
+            bool isValid = bool.TryParse(data.ToString(), out bool result);
             if (isValid)
                 return result;
             return null;
@@ -253,7 +236,7 @@ namespace Abp.Extensions
         /// <param name="value">可空值</param>
         public static T SafeValue<T>(this T? value) where T : struct
         {
-            return value ?? default(T);
+            return value ?? default;
         }
         /// <summary>
         /// 是否为空

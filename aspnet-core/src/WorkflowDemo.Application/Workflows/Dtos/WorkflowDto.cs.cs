@@ -2,18 +2,49 @@
 using System.Collections.Generic;
 
 using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 
 using WorkflowCore.Models;
 
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.Application.Workflows.Dtos
 {
-    public class WorkflowDto : EntityDto<Guid>
+    /// <summary>
+    /// 
+    /// </summary>
+    [AutoMapFrom(typeof(PersistedWorkflow))]
+    public class WorkflowDto : EntityDto<string>
     {
-        public string WorkflowDefinitionId { get; set; }
+        /// <summary>
+        /// 流程名
+        /// </summary>
+        public string Title { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Version { get; set; }
+
+        /// <summary>
+        /// 提交时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? CompleteTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public WorkflowStatus Status { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string WorkflowDefinitionId { get; set; }
 
         /// <summary>
         /// 流程定义输入的数据
@@ -31,34 +62,8 @@ namespace WorkflowDemo.Application.Workflows.Dtos
         public string UserName { get; set; }
 
         /// <summary>
-        /// 流程名
+        /// 
         /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// 提交时间
-        /// </summary>
-        public DateTime CreationTime { get; set; }
-
-        public DateTime? CompleteTime { get; set; }
-
-        public WorkflowStatus Status { get; set; }
-
-        public IEnumerable<WorkflowExecutionRecord> ExecutionRecords { get; set; }
-    }
-
-    public class WorkflowExecutionRecord
-    {
-        public string ExecutionPointerId { get; set; }
-
-        public string StepName { get; set; }
-
-        public int StepId { get; set; }
-
-        public string StepTitle { get; set; }
-
-        public DateTime? StartTime { get; set; }
-
-        public DateTime? EndTime { get; set; }
+        public IEnumerable<WorkflowExecutionRecordDto> ExecutionRecords { get; set; }
     }
 }

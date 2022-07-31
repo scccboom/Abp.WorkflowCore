@@ -6,13 +6,26 @@ using Abp.UI;
 
 namespace WorkflowDemo.Authorization
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AbpLoginResultTypeHelper : AbpServiceBase, ITransientDependency
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public AbpLoginResultTypeHelper()
         {
             LocalizationSourceName = WorkflowDemoConsts.LocalizationSourceName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="usernameOrEmailAddress"></param>
+        /// <param name="tenancyName"></param>
+        /// <returns></returns>
         public Exception CreateExceptionForFailedLoginAttempt(AbpLoginResultType result, string usernameOrEmailAddress, string tenancyName)
         {
             switch (result)
@@ -38,6 +51,14 @@ namespace WorkflowDemo.Authorization
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="usernameOrEmailAddress"></param>
+        /// <param name="tenancyName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string CreateLocalizedMessageForFailedLoginAttempt(AbpLoginResultType result, string usernameOrEmailAddress, string tenancyName)
         {
             switch (result)

@@ -20,6 +20,9 @@ using WorkflowDemo.MultiTenancy;
 
 namespace WorkflowDemo.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]/[action]")]
     public class TokenAuthController : WorkflowDemoControllerBase
     {
@@ -31,6 +34,16 @@ namespace WorkflowDemo.Controllers
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logInManager"></param>
+        /// <param name="tenantCache"></param>
+        /// <param name="abpLoginResultTypeHelper"></param>
+        /// <param name="configuration"></param>
+        /// <param name="externalAuthConfiguration"></param>
+        /// <param name="externalAuthManager"></param>
+        /// <param name="userRegistrationManager"></param>
         public TokenAuthController(
             LogInManager logInManager,
             ITenantCache tenantCache,
@@ -49,6 +62,11 @@ namespace WorkflowDemo.Controllers
             _userRegistrationManager = userRegistrationManager;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<AuthenticateResultModel> Authenticate([FromBody] AuthenticateModel model)
         {
@@ -69,12 +87,21 @@ namespace WorkflowDemo.Controllers
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public List<ExternalLoginProviderInfoModel> GetExternalAuthenticationProviders()
         {
             return ObjectMapper.Map<List<ExternalLoginProviderInfoModel>>(_externalAuthConfiguration.Providers);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ExternalAuthenticateResultModel> ExternalAuthenticate([FromBody] ExternalAuthenticateModel model)
         {
@@ -219,7 +246,7 @@ namespace WorkflowDemo.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, nameIdClaim.Value),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
             });
 
             return claims;

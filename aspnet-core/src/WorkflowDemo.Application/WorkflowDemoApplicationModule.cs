@@ -1,26 +1,33 @@
 ﻿using Abp.AutoMapper;
+using Abp.Dependency;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 
-using WorkflowCore.Interface;
-
-using WorkflowDemo.Application.Workflows.StepBodys;
 using WorkflowDemo.Authorization;
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DependsOn(
         typeof(WorkflowDemoCoreModule),
         typeof(WorkflowDemoWorkflowCoreModule),
         typeof(AbpAutoMapperModule))]
     public class WorkflowDemoApplicationModule : AbpModule
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<WorkflowDemoAuthorizationProvider>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
             var thisAssembly = typeof(WorkflowDemoApplicationModule).GetAssembly();
@@ -31,22 +38,6 @@ namespace WorkflowDemo
                 // Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg => cfg.AddMaps(thisAssembly)
             );
-
-            Configuration.GetWorkflowConfiguration().Providers.Add<DefaultStepBodyProvider>();
-
-            IocManager.IocContainer.Install(new WorkflowInstaller(IocManager));
-        }
-
-        public override void PostInitialize()
-        {
-            var host = IocManager.Resolve<IWorkflowHost>();
-            host.Start();
-            IocManager.Resolve<AbpWorkflowManager>().Initialize();
-        }
-
-        public override void Shutdown()
-        {
-            IocManager.Resolve<IWorkflowHost>().Stop();
         }
     }
 }

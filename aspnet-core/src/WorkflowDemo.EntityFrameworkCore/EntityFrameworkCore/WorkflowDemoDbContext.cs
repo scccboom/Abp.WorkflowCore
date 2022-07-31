@@ -1,14 +1,22 @@
-﻿using Abp.Zero.EntityFrameworkCore;
+﻿using Abp.Domain.Repositories;
+using Abp.Zero.EntityFrameworkCore;
 
 using Microsoft.EntityFrameworkCore;
 
 using WorkflowDemo.Authorization.Roles;
 using WorkflowDemo.Authorization.Users;
+using WorkflowDemo.EntityFrameworkCore.Repositories;
 using WorkflowDemo.MultiTenancy;
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.EntityFrameworkCore
 {
+    [AutoRepositoryTypes(
+        typeof(IRepository<>),
+        typeof(IRepository<,>),
+        typeof(WorkflowDemoRepositoryBase<>),
+        typeof(WorkflowDemoRepositoryBase<,>)
+    )]
     public class WorkflowDemoDbContext : AbpZeroDbContext<Tenant, Role, User, WorkflowDemoDbContext>
     {
         /* Define a DbSet for each entity of the application */
@@ -35,9 +43,9 @@ namespace WorkflowDemo.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(WorkflowDemoDbContext).Assembly);
 
-            modelBuilder.ConfigWorkflowCore();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

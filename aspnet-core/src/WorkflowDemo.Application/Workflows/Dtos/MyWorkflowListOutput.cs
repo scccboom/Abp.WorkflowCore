@@ -7,24 +7,48 @@ using Abp.Application.Services.Dto;
 
 using WorkflowCore.Models;
 
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.Application.Workflows.Dtos
 {
-    public class MyWorkflowListOutput : EntityDto<Guid>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class MyWorkflowListOutput : EntityDto<string>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Version { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime CreationTime { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime? CompleteTime { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public WorkflowStatus Status { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string CurrentStepName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string CurrentStepTitle
         {
             get
@@ -33,6 +57,9 @@ namespace WorkflowDemo.Application.Workflows.Dtos
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [JsonIgnore]
         public IEnumerable<WorkflowNode> Nodes { get; set; }
     }

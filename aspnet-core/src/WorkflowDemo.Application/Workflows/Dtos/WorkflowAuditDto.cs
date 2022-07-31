@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.Application.Workflows.Dtos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class WorkflowAuditDto
     {
         /// <summary>
@@ -18,20 +21,44 @@ namespace WorkflowDemo.Application.Workflows.Dtos
         public Dictionary<string, IEnumerable<WorkflowAuditRecord>> AuditRecords { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class WorkflowAuditRecord
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public long UserId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string ExecutionPointerId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string UserIdentityName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string UserHeadPhoto { get; set; }
 
-        public EnumAuditStatus Status { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public WorkflowAuditStatus Status { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime? AuditTime { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Remark { get; set; }
     }
 }

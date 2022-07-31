@@ -3,10 +3,13 @@
 using Abp.Application.Services.Dto;
 using Abp.BaseDto;
 
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.Application.Workflows.Dtos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class GetMyAuditPageListInput : PagedInputDto
     {
         /// <summary>
@@ -15,14 +18,29 @@ namespace WorkflowDemo.Application.Workflows.Dtos
         public bool? AuditedMark { get; set; }
     }
 
-    public class GetMyAuditPageListOutput : EntityDto<Guid>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class GetMyAuditPageListOutput : EntityDto<string>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string WorkflowDefinitionId { get; set; }
 
-        public Guid WorkflowId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string WorkflowId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Version { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int StepId { get; set; }
 
         /// <summary>
@@ -45,8 +63,14 @@ namespace WorkflowDemo.Application.Workflows.Dtos
         /// </summary>
         public DateTime CreationTime { get; set; }
 
-        public EnumAuditStatus Status { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public WorkflowAuditStatus Status { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime? AuditTime { get; set; }
     }
 }

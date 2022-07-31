@@ -3,6 +3,8 @@
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
+using WorkflowDemo.Workflows;
+
 namespace WorkflowDemo.Workflow.Test
 {
     public class HelloAbpWorkflow : AbpWorkflow

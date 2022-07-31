@@ -4,8 +4,17 @@ using Microsoft.AspNetCore.Builder;
 
 namespace WorkflowDemo.Authentication.JwtBearer
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class JwtTokenMiddleware
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="schema"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseJwtTokenMiddleware(this IApplicationBuilder app, string schema = JwtBearerDefaults.AuthenticationScheme)
         {
             return app.Use(async (ctx, next) =>

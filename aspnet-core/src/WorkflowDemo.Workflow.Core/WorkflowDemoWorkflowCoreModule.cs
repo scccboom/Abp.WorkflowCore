@@ -1,20 +1,29 @@
-﻿using Abp.Modules;
+﻿using Abp.Dependency;
+using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DependsOn(typeof(AbpZeroCoreModule))]
     public class WorkflowDemoWorkflowCoreModule : AbpModule
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(WorkflowDemoWorkflowCoreModule).GetAssembly());
-        }
+            IocManager.IocContainer.Install(new WorkflowInstaller());
 
-        public override void PostInitialize()
-        {
-            IocManager.Resolve<WorkflowDefinitionManager>().Initialize();
+            var thisAssembly = typeof(WorkflowDemoWorkflowCoreModule).GetAssembly();
+
+            IocManager.RegisterAssemblyByConvention(thisAssembly, new ConventionalRegistrationConfig
+            {
+                InstallInstallers = false
+            });
         }
     }
 }

@@ -9,19 +9,26 @@ using WorkflowDemo.Controllers;
 
 namespace WorkflowDemo.Web.Host.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class HomeController : WorkflowDemoControllerBase
     {
         private readonly INotificationPublisher _notificationPublisher;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="notificationPublisher"></param>
         public HomeController(INotificationPublisher notificationPublisher)
         {
             _notificationPublisher = notificationPublisher;
         }
 
-        public IActionResult Index()
-        {
-            return Redirect("/swagger");
-        }
+        //public IActionResult Index()
+        //{
+        //    return Redirect("swagger");
+        //}
 
         /// <summary>
         /// This is a demo code to demonstrate sending notification to default tenant admin and host admin uers.

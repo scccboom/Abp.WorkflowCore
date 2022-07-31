@@ -1,6 +1,6 @@
 ﻿using WorkflowCore.Interface;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
     public interface IAbpWorkflow : IWorkflow<WorkflowParamDictionary>
     {

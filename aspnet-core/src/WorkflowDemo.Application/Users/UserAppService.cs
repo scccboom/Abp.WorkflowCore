@@ -20,7 +20,6 @@ using WorkflowDemo.Authorization.Users;
 using WorkflowDemo.Roles.Dto;
 using WorkflowDemo.Users.Dto;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace WorkflowDemo.Users
 {
@@ -121,14 +120,17 @@ namespace WorkflowDemo.Users
             {
                 input.Keyword = "";
             }
-            var users = await _userManager.Users.Where(u => u.IsActive)
+
+            var query = _userManager.Users.Where(u => u.IsActive)
                  .Where(u => u.UserName.StartsWith(input.Keyword) || input.UserIds.Contains(u.Id))
                 .Select(u => new SearchUserOutput()
                 {
                     Id = u.Id,
                     UserName = u.UserName,
                     FullName = u.FullName
-                }).Take(input.MaxCount).ToListAsync();
+                }).Take(input.MaxCount);
+
+            var users = await AsyncQueryableExecuter.ToListAsync(query);
             return users;
         }
 
@@ -166,7 +168,9 @@ namespace WorkflowDemo.Users
 
         protected override async Task<User> GetEntityByIdAsync(long id)
         {
-            var user = await Repository.GetAllIncluding(x => x.Roles).FirstOrDefaultAsync(x => x.Id == id);
+            var query = Repository.GetAllIncluding(x => x.Roles).Where(x => x.Id == id);
+
+            var user = await AsyncQueryableExecuter.FirstOrDefaultAsync(query);
 
             if (user == null)
             {

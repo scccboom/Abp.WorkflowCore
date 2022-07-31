@@ -10,10 +10,10 @@ namespace WorkflowDemo.EntityFrameworkCore.Repositories
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key type of the entity</typeparam>
-    public abstract class WorkflowDemoRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<WorkflowDemoDbContext, TEntity, TPrimaryKey>
+    public class WorkflowDemoRepositoryBase<TEntity, TPrimaryKey> : EfCoreRepositoryBase<WorkflowDemoDbContext, TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        protected WorkflowDemoRepositoryBase(IDbContextProvider<WorkflowDemoDbContext> dbContextProvider)
+        public WorkflowDemoRepositoryBase(IDbContextProvider<WorkflowDemoDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
         }
@@ -26,10 +26,10 @@ namespace WorkflowDemo.EntityFrameworkCore.Repositories
     /// This is a shortcut of <see cref="WorkflowDemoRepositoryBase{TEntity,TPrimaryKey}"/> for <see cref="int"/> primary key.
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
-    public abstract class WorkflowDemoRepositoryBase<TEntity> : WorkflowDemoRepositoryBase<TEntity, int>, IRepository<TEntity>
+    public class WorkflowDemoRepositoryBase<TEntity> : WorkflowDemoRepositoryBase<TEntity, int>, IRepository<TEntity>
         where TEntity : class, IEntity<int>
     {
-        protected WorkflowDemoRepositoryBase(IDbContextProvider<WorkflowDemoDbContext> dbContextProvider)
+        public WorkflowDemoRepositoryBase(IDbContextProvider<WorkflowDemoDbContext> dbContextProvider)
             : base(dbContextProvider)
         {
         }

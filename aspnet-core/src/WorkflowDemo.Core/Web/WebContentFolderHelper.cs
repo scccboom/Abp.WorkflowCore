@@ -20,7 +20,7 @@ namespace WorkflowDemo.Web
             }
 
             var directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
-            while (!DirectoryContains(directoryInfo.FullName, "WorkflowDemo.sln"))
+            while (!DirectoryContains(directoryInfo.FullName, "Abp.WorkflowCore.sln"))
             {
                 if (directoryInfo.Parent == null)
                 {

@@ -21,7 +21,7 @@ namespace WorkflowDemo.Tests
     {
         protected WorkflowDemoTestBase()
         {
-            void NormalizeDbContext(WorkflowDemoDbContext context)
+            static void NormalizeDbContext(WorkflowDemoDbContext context)
             {
                 context.EntityChangeEventHelper = NullEntityChangeEventHelper.Instance;
                 context.EventBus = NullEventBus.Instance;
@@ -81,11 +81,9 @@ namespace WorkflowDemo.Tests
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WorkflowDemoDbContext>())
-                {
-                    action(context);
-                    context.SaveChanges();
-                }
+                using var context = LocalIocManager.Resolve<WorkflowDemoDbContext>();
+                action(context);
+                context.SaveChanges();
             }
         }
 
@@ -93,11 +91,9 @@ namespace WorkflowDemo.Tests
         {
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WorkflowDemoDbContext>())
-                {
-                    await action(context);
-                    await context.SaveChangesAsync();
-                }
+                using var context = LocalIocManager.Resolve<WorkflowDemoDbContext>();
+                await action(context);
+                await context.SaveChangesAsync();
             }
         }
 
@@ -107,11 +103,9 @@ namespace WorkflowDemo.Tests
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WorkflowDemoDbContext>())
-                {
-                    result = func(context);
-                    context.SaveChanges();
-                }
+                using var context = LocalIocManager.Resolve<WorkflowDemoDbContext>();
+                result = func(context);
+                context.SaveChanges();
             }
 
             return result;
@@ -123,11 +117,9 @@ namespace WorkflowDemo.Tests
 
             using (UsingTenantId(tenantId))
             {
-                using (var context = LocalIocManager.Resolve<WorkflowDemoDbContext>())
-                {
-                    result = await func(context);
-                    await context.SaveChangesAsync();
-                }
+                using var context = LocalIocManager.Resolve<WorkflowDemoDbContext>();
+                result = await func(context);
+                await context.SaveChangesAsync();
             }
 
             return result;

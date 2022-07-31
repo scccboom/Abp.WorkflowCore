@@ -4,7 +4,7 @@ using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
 
 using WorkflowDemo.EntityFrameworkCore.Seed;
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.EntityFrameworkCore
 {

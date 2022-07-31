@@ -1311,347 +1311,6 @@ namespace WorkflowDemo.Migrations
                     b.ToTable("AbpWebhookSubscriptions");
                 });
 
-            modelBuilder.Entity("Abp.Workflow.PersistedWorkflowDefinition", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Version")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Inputs")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nodes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id", "Version");
-
-                    b.ToTable("WorkflowDefinitions");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedEvent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("EventData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventKey")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("EventName")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("EventTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsProcessed")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowEvents");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedExecutionError", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ErrorTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExecutionPointerId")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WorkflowId")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowExecutionErrors");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedExecutionPointer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Children")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContextItem")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EventData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventKey")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("EventName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<bool>("EventPublished")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Outcome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PersistenceData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PredecessorId")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("RetryCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Scope")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("SleepUntil")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StepId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StepName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<Guid>("WorkflowId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.ToTable("WorkflowExecutionPointers");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedExtensionAttribute", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AttributeKey")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("AttributeValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExecutionPointerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExecutionPointerId");
-
-                    b.ToTable("WorkflowExtensionAttributes");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedSubscription", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("EventKey")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("EventName")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ExecutionPointerId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ExternalToken")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("ExternalTokenExpiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ExternalWorkerId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("StepId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SubscribeAsOf")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SubscriptionData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WorkflowId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowSubscriptions");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedWorkflow", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CompleteTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreateUserIdentityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("NextExecution")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowDefinitionId")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowDefinitionId", "Version");
-
-                    b.ToTable("Workflows");
-                });
-
             modelBuilder.Entity("WorkflowDemo.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -1853,54 +1512,6 @@ namespace WorkflowDemo.Migrations
                     b.ToTable("AbpUsers");
                 });
 
-            modelBuilder.Entity("WorkflowDemo.Core.Workflows.Entities.PersistedWorkflowAuditor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("AuditTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ExecutionPointerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserHeadPhoto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserIdentityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("WorkflowId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExecutionPointerId");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.ToTable("PersistedWorkflowAuditors");
-                });
-
             modelBuilder.Entity("WorkflowDemo.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
@@ -1962,6 +1573,397 @@ namespace WorkflowDemo.Migrations
                     b.HasIndex("TenancyName");
 
                     b.ToTable("AbpTenants");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedEvent", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EventData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("EventTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkflowEvents");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedExecutionError", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<DateTime>("ErrorTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExecutionPointerId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkflowId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkflowExecutionErrors");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedExecutionPointer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Children")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContextItem")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("EventPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Outcome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersistenceData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PredecessorId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Scope")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SleepUntil")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StepName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("WorkflowId")
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkflowId");
+
+                    b.ToTable("WorkflowExecutionPointers");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedExtensionAttribute", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasMaxLength(64)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AttributeKey")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("AttributeValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExecutionPointerId")
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutionPointerId");
+
+                    b.ToTable("WorkflowExtensionAttributes");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedSubscription", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ExecutionPointerId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("ExternalToken")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("ExternalTokenExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExternalWorkerId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubscribeAsOf")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubscriptionData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkflowId")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkflowSubscriptions");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedWorkflow", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<DateTime?>("CompleteTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreateUserIdentityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("NextExecution")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowDefinitionId")
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkflowDefinitionId", "Version");
+
+                    b.ToTable("Workflows");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedWorkflowAuditor", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<DateTime?>("AuditTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ExecutionPointerId")
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserHeadPhoto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserIdentityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkflowId")
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutionPointerId");
+
+                    b.HasIndex("WorkflowId");
+
+                    b.ToTable("WorkflowAuditors");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedWorkflowDefinition", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("Version")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Group")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Inputs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Nodes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id", "Version");
+
+                    b.ToTable("WorkflowDefinitions");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2130,29 +2132,6 @@ namespace WorkflowDemo.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedExecutionPointer", b =>
-                {
-                    b.HasOne("Abp.WorkflowCore.Persistence.PersistedWorkflow", "Workflow")
-                        .WithMany("ExecutionPointers")
-                        .HasForeignKey("WorkflowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedExtensionAttribute", b =>
-                {
-                    b.HasOne("Abp.WorkflowCore.Persistence.PersistedExecutionPointer", "ExecutionPointer")
-                        .WithMany("ExtensionAttributes")
-                        .HasForeignKey("ExecutionPointerId");
-                });
-
-            modelBuilder.Entity("Abp.WorkflowCore.Persistence.PersistedWorkflow", b =>
-                {
-                    b.HasOne("Abp.Workflow.PersistedWorkflowDefinition", "WorkflowDefinition")
-                        .WithMany()
-                        .HasForeignKey("WorkflowDefinitionId", "Version");
-                });
-
             modelBuilder.Entity("WorkflowDemo.Authorization.Roles.Role", b =>
                 {
                     b.HasOne("WorkflowDemo.Authorization.Users.User", "CreatorUser")
@@ -2183,19 +2162,6 @@ namespace WorkflowDemo.Migrations
                         .HasForeignKey("LastModifierUserId");
                 });
 
-            modelBuilder.Entity("WorkflowDemo.Core.Workflows.Entities.PersistedWorkflowAuditor", b =>
-                {
-                    b.HasOne("Abp.WorkflowCore.Persistence.PersistedExecutionPointer", "ExecutionPointer")
-                        .WithMany()
-                        .HasForeignKey("ExecutionPointerId");
-
-                    b.HasOne("Abp.WorkflowCore.Persistence.PersistedWorkflow", "Workflow")
-                        .WithMany()
-                        .HasForeignKey("WorkflowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WorkflowDemo.MultiTenancy.Tenant", b =>
                 {
                     b.HasOne("WorkflowDemo.Authorization.Users.User", "CreatorUser")
@@ -2213,6 +2179,38 @@ namespace WorkflowDemo.Migrations
                     b.HasOne("WorkflowDemo.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedExecutionPointer", b =>
+                {
+                    b.HasOne("WorkflowDemo.Workflow.PersistedWorkflow", "Workflow")
+                        .WithMany("ExecutionPointers")
+                        .HasForeignKey("WorkflowId");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedExtensionAttribute", b =>
+                {
+                    b.HasOne("WorkflowDemo.Workflow.PersistedExecutionPointer", "ExecutionPointer")
+                        .WithMany("ExtensionAttributes")
+                        .HasForeignKey("ExecutionPointerId");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedWorkflow", b =>
+                {
+                    b.HasOne("WorkflowDemo.Workflow.PersistedWorkflowDefinition", "WorkflowDefinition")
+                        .WithMany()
+                        .HasForeignKey("WorkflowDefinitionId", "Version");
+                });
+
+            modelBuilder.Entity("WorkflowDemo.Workflow.PersistedWorkflowAuditor", b =>
+                {
+                    b.HasOne("WorkflowDemo.Workflow.PersistedExecutionPointer", "ExecutionPointer")
+                        .WithMany()
+                        .HasForeignKey("ExecutionPointerId");
+
+                    b.HasOne("WorkflowDemo.Workflow.PersistedWorkflow", "Workflow")
+                        .WithMany()
+                        .HasForeignKey("WorkflowId");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

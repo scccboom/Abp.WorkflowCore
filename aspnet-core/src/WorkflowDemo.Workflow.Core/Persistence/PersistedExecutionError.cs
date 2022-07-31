@@ -1,22 +1,33 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Abp.Domain.Entities;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
-    [Table("WorkflowExecutionErrors")]
-    public class PersistedExecutionError : Entity<Guid>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PersistedExecutionError : Entity<string>
     {
-        [MaxLength(100)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string WorkflowId { get; set; }
 
-        [MaxLength(100)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string ExecutionPointerId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime ErrorTime { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Message { get; set; }
     }
 }

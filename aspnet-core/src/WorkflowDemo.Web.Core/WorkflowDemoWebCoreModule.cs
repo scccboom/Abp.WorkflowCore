@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace WorkflowDemo
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DependsOn(
          typeof(WorkflowDemoApplicationModule),
          typeof(WorkflowDemoEntityFrameworkModule),
@@ -27,12 +30,19 @@ namespace WorkflowDemo
         private readonly IWebHostEnvironment _env;
         private readonly IConfigurationRoot _appConfiguration;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public WorkflowDemoWebCoreModule(IWebHostEnvironment env)
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void PreInitialize()
         {
             Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(
@@ -62,11 +72,17 @@ namespace WorkflowDemo
             tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(typeof(WorkflowDemoWebCoreModule).GetAssembly());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void PostInitialize()
         {
             IocManager.Resolve<ApplicationPartManager>()

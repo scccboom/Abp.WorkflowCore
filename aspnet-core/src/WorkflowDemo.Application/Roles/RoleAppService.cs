@@ -13,7 +13,6 @@ using WorkflowDemo.Authorization.Roles;
 using WorkflowDemo.Authorization.Users;
 using WorkflowDemo.Roles.Dto;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace WorkflowDemo.Roles
 {
@@ -51,13 +50,14 @@ namespace WorkflowDemo.Roles
 
         public async Task<ListResultDto<RoleListDto>> GetRolesAsync(GetRolesInput input)
         {
-            var roles = await _roleManager
+            var query = _roleManager
                 .Roles
                 .WhereIf(
                     !input.Permission.IsNullOrWhiteSpace(),
                     r => r.Permissions.Any(rp => rp.Name == input.Permission && rp.IsGranted)
-                )
-                .ToListAsync();
+                );
+
+            var roles = await AsyncQueryableExecuter.ToListAsync(query);
 
             return new ListResultDto<RoleListDto>(ObjectMapper.Map<List<RoleListDto>>(roles));
         }
@@ -116,7 +116,8 @@ namespace WorkflowDemo.Roles
 
         protected override async Task<Role> GetEntityByIdAsync(int id)
         {
-            return await Repository.GetAllIncluding(x => x.Permissions).FirstOrDefaultAsync(x => x.Id == id);
+            var query = Repository.GetAllIncluding(x => x.Permissions).Where(x => x.Id == id);
+            return await AsyncQueryableExecuter.FirstOrDefaultAsync(query);
         }
 
         protected override IQueryable<Role> ApplySorting(IQueryable<Role> query, PagedRoleResultRequestDto input)

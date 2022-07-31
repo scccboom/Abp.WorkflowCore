@@ -10,6 +10,12 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <RootNamespace>WorkflowDemo</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.1\WorkflowDemo.Application.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp3.1\WorkflowDemo.Application.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\WorkflowDemo.Core\WorkflowDemo.Core.csproj" />
     <ProjectReference Include="..\WorkflowDemo.Workflow.Core\WorkflowDemo.Workflow.Core.csproj" />

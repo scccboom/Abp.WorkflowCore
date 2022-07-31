@@ -6,6 +6,8 @@ using Castle.Windsor.MsDependencyInjection;
 using Abp.Dependency;
 using WorkflowDemo.EntityFrameworkCore;
 using WorkflowDemo.Identity;
+using WorkflowCore.Interface;
+using WorkflowDemo.Workflows;
 
 namespace WorkflowDemo.Tests.DependencyInjection
 {
@@ -18,6 +20,13 @@ namespace WorkflowDemo.Tests.DependencyInjection
             IdentityRegistrar.Register(services);
 
             services.AddEntityFrameworkInMemoryDatabase();
+
+            services.AddSingleton<IPersistenceProvider, AbpPersistenceProvider>();
+            services.AddWorkflow(options =>
+            {
+                options.UsePersistence(sp => sp.GetService<AbpPersistenceProvider>());
+            });
+            services.AddWorkflowDSL();
 
             var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
 

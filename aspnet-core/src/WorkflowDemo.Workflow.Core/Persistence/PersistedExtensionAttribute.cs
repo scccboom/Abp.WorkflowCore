@@ -1,21 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Abp.Domain.Entities;
 
-using Abp.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
-    [Table("WorkflowExtensionAttributes")]
+    /// <summary>
+    /// 
+    /// </summary>
     public class PersistedExtensionAttribute : Entity<long>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ExecutionPointerId { get; set; }
 
-        [ForeignKey("ExecutionPointerId")]
+        /// <summary>
+        /// 
+        /// </summary>
         public PersistedExecutionPointer ExecutionPointer { get; set; }
 
-        [MaxLength(100)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string AttributeKey { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string AttributeValue { get; set; }
     }
 }

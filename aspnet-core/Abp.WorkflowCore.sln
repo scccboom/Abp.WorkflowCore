@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EB8C6DA9-30A9-4B69-932A-B4CD1851F84A}"
 EndProject
@@ -22,8 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowDemo.Workflow.Core", "src\WorkflowDemo.Workflow.Core\WorkflowDemo.Workflow.Core.csproj", "{D3A49B08-B8A0-4D9D-86BE-C52A1883FEB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowDemo.Tests", "test\WorkflowDemo.Tests\WorkflowDemo.Tests.csproj", "{AE006163-C424-494E-A8B9-09B8C8AE221D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowDemo.Web.Tests", "test\WorkflowDemo.Web.Tests\WorkflowDemo.Web.Tests.csproj", "{AF6355AF-A88B-468E-B123-F1AB480434C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowDemo.Workflow.Core.Test", "test\WorkflowDemo.Workflow.Core.Test\WorkflowDemo.Workflow.Core.Test.csproj", "{B47905E8-1434-43EB-9E4E-B5B9C2AC7B08}"
 EndProject
@@ -65,10 +63,6 @@ Global
 		{AE006163-C424-494E-A8B9-09B8C8AE221D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE006163-C424-494E-A8B9-09B8C8AE221D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE006163-C424-494E-A8B9-09B8C8AE221D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF6355AF-A88B-468E-B123-F1AB480434C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF6355AF-A88B-468E-B123-F1AB480434C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF6355AF-A88B-468E-B123-F1AB480434C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF6355AF-A88B-468E-B123-F1AB480434C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B47905E8-1434-43EB-9E4E-B5B9C2AC7B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B47905E8-1434-43EB-9E4E-B5B9C2AC7B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B47905E8-1434-43EB-9E4E-B5B9C2AC7B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,7 +80,6 @@ Global
 		{DB770044-7E15-4541-B100-E4AF678F71B5} = {EB8C6DA9-30A9-4B69-932A-B4CD1851F84A}
 		{D3A49B08-B8A0-4D9D-86BE-C52A1883FEB9} = {EB8C6DA9-30A9-4B69-932A-B4CD1851F84A}
 		{AE006163-C424-494E-A8B9-09B8C8AE221D} = {21F80EA7-2BF7-4847-BDEF-5BA3A12ED986}
-		{AF6355AF-A88B-468E-B123-F1AB480434C9} = {21F80EA7-2BF7-4847-BDEF-5BA3A12ED986}
 		{B47905E8-1434-43EB-9E4E-B5B9C2AC7B08} = {21F80EA7-2BF7-4847-BDEF-5BA3A12ED986}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

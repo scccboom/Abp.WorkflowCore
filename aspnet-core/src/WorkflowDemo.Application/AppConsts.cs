@@ -1,5 +1,8 @@
 ﻿namespace WorkflowDemo
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AppConsts
     {
         /// <summary>

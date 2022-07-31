@@ -41,6 +41,8 @@ namespace WorkflowDemo.Web.Tests
 
             //services.AddScoped<IWebResourceManager, WebResourceManager>();
 
+            services.AddWorkflow();
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<WorkflowDemoWebTestModule>(options =>
             {

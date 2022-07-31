@@ -3,6 +3,7 @@ import appconst from './appconst'
 import Vue from 'vue'
 const ajax = axios.create({
     baseURL: appconst.remoteServiceBaseUrl,
+    withCredentials: true,
     timeout: 30000
 });
 ajax.interceptors.request.use(function (config) {

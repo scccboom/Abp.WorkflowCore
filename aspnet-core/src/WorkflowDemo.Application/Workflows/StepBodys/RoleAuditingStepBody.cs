@@ -7,14 +7,15 @@ using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Notifications;
+using Abp.UI.Inputs;
 
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
 using WorkflowDemo.Authorization.Users;
-using WorkflowDemo.Workflow;
+using WorkflowDemo.Workflows;
 
-namespace WorkflowDemo.Application.Workflows.StepBodys
+namespace WorkflowDemo.Workflows
 {
     /// <summary>
     /// 指定角色审批
@@ -23,15 +24,26 @@ namespace WorkflowDemo.Application.Workflows.StepBodys
     {
         private const string ActionName = "AuditEvent";
 
-        protected readonly INotificationPublisher _notificationPublisher;
+        private readonly INotificationPublisher _notificationPublisher;
 
-        protected readonly IAbpPersistenceProvider _abpPersistenceProvider;
+        private readonly IAbpPersistenceProvider _abpPersistenceProvider;
 
-        protected readonly UserManager _userManager;
+        private readonly UserManager _userManager;
 
-        public readonly IRepository<PersistedWorkflowAuditor, Guid> _auditorRepository;
+        private readonly IRepository<PersistedWorkflowAuditor, string> _auditorRepository;
 
-        public RoleAuditingStepBody(INotificationPublisher notificationPublisher, UserManager userManager, IAbpPersistenceProvider abpPersistenceProvider, IRepository<PersistedWorkflowAuditor, Guid> auditorRepository)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="notificationPublisher"></param>
+        /// <param name="abpPersistenceProvider"></param>
+        /// <param name="auditorRepository"></param>
+        public RoleAuditingStepBody(
+            UserManager userManager, 
+            INotificationPublisher notificationPublisher, 
+            IAbpPersistenceProvider abpPersistenceProvider, 
+            IRepository<PersistedWorkflowAuditor, string> auditorRepository)
         {
             _notificationPublisher = notificationPublisher;
             _abpPersistenceProvider = abpPersistenceProvider;
@@ -44,6 +56,11 @@ namespace WorkflowDemo.Application.Workflows.StepBodys
         /// </summary>
         public string RoleName { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         [UnitOfWork]
         public override ExecutionResult Run(IStepExecutionContext context)
         {
@@ -56,7 +73,7 @@ namespace WorkflowDemo.Application.Workflows.StepBodys
 
             if (!context.ExecutionPointer.EventPublished)
             {
-                var workflow = _abpPersistenceProvider.GetPersistedWorkflow(new Guid(context.Workflow.Id)).Result;
+                var workflow = _abpPersistenceProvider.GetPersistedWorkflow(context.Workflow.Id).Result;
                 var workflowDefinition = _abpPersistenceProvider.GetPersistedWorkflowDefinition(context.Workflow.WorkflowDefinitionId, context.Workflow.Version).Result;
 
                 var userIdentityName = _userManager.Users.Where(u => u.Id == workflow.CreatorUserId).Select(u => u.FullName).FirstOrDefault();
@@ -70,13 +87,13 @@ namespace WorkflowDemo.Application.Workflows.StepBodys
                 //添加审批人
                 foreach (var item in userIdentitys)
                 {
-                    _auditorRepository.Insert(new PersistedWorkflowAuditor() { WorkflowId = workflow.Id, ExecutionPointerId = context.ExecutionPointer.Id, Status = EnumAuditStatus.UnAudited, UserIdentityName = item.FullName, UserId = item.Id, TenantId = item.TenantId });
+                    _auditorRepository.Insert(new PersistedWorkflowAuditor() { WorkflowId = workflow.Id, ExecutionPointerId = context.ExecutionPointer.Id, Status = WorkflowAuditStatus.UnAudited, UserIdentityName = item.FullName, UserId = item.Id, TenantId = item.TenantId });
                 }
                 DateTime effectiveDate = DateTime.MinValue;
                 return ExecutionResult.WaitForEvent(ActionName, Guid.NewGuid().ToString(), effectiveDate);
             }
 
-            var pass = _auditorRepository.GetAll().Count(u => u.ExecutionPointerId == context.ExecutionPointer.Id && u.Status == EnumAuditStatus.Pass);
+            var pass = _auditorRepository.GetAll().Count(u => u.ExecutionPointerId == context.ExecutionPointer.Id && u.Status == WorkflowAuditStatus.Pass);
 
             //需全部审核通过
             if (pass < userIdentitys.Count())
@@ -85,6 +102,33 @@ namespace WorkflowDemo.Application.Workflows.StepBodys
                 return ExecutionResult.Next();
             }
             return ExecutionResult.Next();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static AbpWorkflowStepDefinition Create()
+        {
+            var step = new AbpWorkflowStepDefinition
+            {
+                Name = "FixedRoleAudit",
+                DisplayName = "指定角色审核",
+                StepBodyType = typeof(RoleAuditingStepBody),
+                Inputs = new WorkflowParamDictionary
+                {
+                    {
+                        "RoleName",
+                        new WorkflowParam()
+                        {
+                            InputType = new SelectRoleInputType(),
+                            Name = "RoleName",
+                            DisplayName = "审核角色名"
+                        }
+                    }
+                }
+            };
+            return step;
         }
     }
 }

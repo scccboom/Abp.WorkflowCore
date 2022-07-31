@@ -1,38 +1,64 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 using Abp.Domain.Entities;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
-    [Table("WorkflowSubscriptions")]
-    public class PersistedSubscription : Entity<Guid>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PersistedSubscription : Entity<string>
     {
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string WorkflowId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int StepId { get; set; }
 
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string ExecutionPointerId { get; set; }
 
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string EventName { get; set; }
 
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string EventKey { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime SubscribeAsOf { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string SubscriptionData { get; set; }
 
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
         public string ExternalToken { get; set; }
 
-        [MaxLength(200)]
+        /// <summary>
+        /// 
+        /// </summary>
+        [MaxLength(64)]
         public string ExternalWorkerId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime? ExternalTokenExpiry { get; set; }
     }
 }

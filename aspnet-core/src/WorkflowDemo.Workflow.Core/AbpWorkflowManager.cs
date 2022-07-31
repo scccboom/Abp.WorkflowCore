@@ -6,7 +6,6 @@ using Abp;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Json;
-using Abp.Linq;
 using Abp.UI;
 
 using WorkflowCore.Interface;
@@ -14,11 +13,11 @@ using WorkflowCore.Models;
 using WorkflowCore.Models.DefinitionStorage.v1;
 using WorkflowCore.Services.DefinitionStorage;
 
-namespace WorkflowDemo.Workflow
+namespace WorkflowDemo.Workflows
 {
-    public class AbpWorkflowManager : DomainService, IAbpWorkflowManager
+    public class AbpWorkflowManager : DomainService
     {
-        protected readonly WorkflowDefinitionManager _workflowDefinitionManager;
+        protected readonly AbpStepBodyDefinitionContext _workflowDefinitionManager;
 
         protected IWorkflowHost _workflowHost;
 
@@ -34,13 +33,20 @@ namespace WorkflowDemo.Workflow
 
         protected readonly IRepository<PersistedWorkflowDefinition, string> _workflowDefinitionRepository;
 
-        protected IReadOnlyCollection<AbpWorkflowStepBody> _stepBodys;
-
-        public IAsyncQueryableExecuter AsyncQueryableExecuter { get; set; }
+        protected IReadOnlyCollection<AbpWorkflowStepDefinition> _stepBodys;
 
         public IQueryable<PersistedWorkflowDefinition> WorkflowDefinitions => _workflowDefinitionRepository.GetAll();
 
-        public AbpWorkflowManager(WorkflowDefinitionManager workflowDefinitionManager, IWorkflowHost workflowHost, IWorkflowController workflowService, IWorkflowRegistry registry, IAbpPersistenceProvider workflowStore, ISearchIndex searchService, IDefinitionLoader definitionLoader, IRepository<PersistedWorkflowDefinition, string> workflowDefinitionRepository, IAsyncQueryableExecuter asyncQueryableExecuter)
+        public AbpWorkflowManager(
+            IWorkflowHost workflowHost, 
+            IWorkflowController workflowService, 
+            IWorkflowRegistry registry, 
+            ISearchIndex searchService, 
+            IDefinitionLoader definitionLoader, 
+            IAbpPersistenceProvider workflowStore, 
+            AbpStepBodyDefinitionContext workflowDefinitionManager, 
+            IRepository<PersistedWorkflowDefinition, string> workflowDefinitionRepository
+            )
         {
             _workflowDefinitionManager = workflowDefinitionManager;
             _workflowHost = workflowHost;
@@ -51,7 +57,6 @@ namespace WorkflowDemo.Workflow
             _definitionLoader = definitionLoader;
             _workflowDefinitionRepository = workflowDefinitionRepository;
             _stepBodys = _workflowDefinitionManager.GetAllStepBodys();
-            AsyncQueryableExecuter = asyncQueryableExecuter;
         }
 
         /// <summary>
@@ -74,21 +79,23 @@ namespace WorkflowDemo.Workflow
         /// </summary>
         public void Initialize()
         {
-            using (UnitOfWorkManager.Begin())
+            using var uow = UnitOfWorkManager.Begin();
+
+            var workflows = WorkflowDefinitions.ToList();
+
+            foreach (var workflow in workflows)
             {
-                var workflows = WorkflowDefinitions.ToList();
-                foreach (var workflow in workflows)
-                {
-                    LoadDefinition(workflow);
-                }
+                LoadDefinition(workflow);
             }
+
+            uow.Complete();
         }
 
         /// <summary>
         ///
         /// </summary>
         /// <returns></returns>
-        public virtual IEnumerable<AbpWorkflowStepBody> GetAllStepBodys()
+        public virtual IEnumerable<AbpWorkflowStepDefinition> GetAllStepBodys()
         {
             return _stepBodys;
         }
@@ -103,10 +110,11 @@ namespace WorkflowDemo.Workflow
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public virtual async Task CreateAsync(PersistedWorkflowDefinition entity)
+        public virtual async Task<PersistedWorkflowDefinition> CreateAsync(PersistedWorkflowDefinition entity)
         {
             LoadDefinition(entity);
             await _workflowDefinitionRepository.InsertAsync(entity);
+            return entity;
         }
 
         /// <summary>
@@ -173,37 +181,49 @@ namespace WorkflowDemo.Workflow
             {
                 throw new AbpException($"the workflow {input.Id} has ben definded!");
             }
-            var source = new DefinitionSourceV1();
-            source.Id = input.Id.ToString();
-            source.Version = input.Version;
-            source.Description = input.Title;
-            source.DataType = $"{typeof(Dictionary<string, object>).FullName}, {typeof(Dictionary<string, object>).Assembly.FullName}";
+            var source = new DefinitionSourceV1
+            {
+                Id = input.Id.ToString(),
+                Version = input.Version,
+                Description = input.Title,
+                DataType = $"{typeof(Dictionary<string, object>).FullName}, {typeof(Dictionary<string, object>).Assembly.FullName}"
+            };
 
             BuildWorkflow(input.Nodes, source, _stepBodys, input.Nodes.First(u => u.Key.ToLower().StartsWith("start")));
+
             var json = source.ToJsonString();
             Logger.DebugFormat("Workflow Json:{0}", json);
             var def = _definitionLoader.LoadDefinition(json, Deserializers.Json);
             return def;
         }
 
-        protected virtual void BuildWorkflow(IEnumerable<WorkflowNode> allNodes, DefinitionSourceV1 source, IEnumerable<AbpWorkflowStepBody> stepBodys, WorkflowNode node)
+        protected virtual void BuildWorkflow(IEnumerable<WorkflowNode> allNodes, DefinitionSourceV1 source, IEnumerable<AbpWorkflowStepDefinition> stepNodes, WorkflowNode node)
         {
             if (source.Steps.Any(u => u.Id == node.Key))
             {
                 return;
             }
 
-            var stepSource = new StepSourceV1();
-            stepSource.Id = node.Key;
-            stepSource.Name = node.Key;
-            AbpWorkflowStepBody stepbody = stepBodys.FirstOrDefault(u => u.Name == node.StepBody.Name);
-            if (stepbody == null)
+            var stepSource = new StepSourceV1
             {
-                stepbody = new AbpWorkflowStepBody() { StepBodyType = typeof(NullStepBody) };
-            }
-            stepSource.StepType = $"{stepbody.StepBodyType.FullName}, {stepbody.StepBodyType.Assembly.FullName}";
+                Id = node.Key,
+                Name = node.Key
+            };
+            AbpWorkflowStepDefinition stepNode = stepNodes.FirstOrDefault(u => u.Name == node.StepBody.Name);
+            if (stepNode == null)
+            {
+                var sn = "null";
 
-            foreach (var input in stepbody.Inputs)
+                if (node.Key.ToLower().StartsWith("end"))
+                {
+                    sn = "end";
+                }
+
+                stepNode = stepNodes.FirstOrDefault(x => x.Name == sn);
+            }
+            stepSource.StepType = $"{stepNode.StepBodyType.FullName}, {stepNode.StepBodyType.Assembly.FullName}";
+
+            foreach (var input in stepNode.Inputs)
             {
                 var value = node.StepBody.Inputs[input.Key].Value;
                 if (!(value is IDictionary<string, object> || value is IDictionary<object, object>))
@@ -213,12 +233,12 @@ namespace WorkflowDemo.Workflow
                 stepSource.Inputs.TryAdd(input.Key, value);
             }
             source.Steps.Add(stepSource);
-            BuildBranching(allNodes, source, stepSource, stepBodys, node.NextNodes);
+            BuildBranching(allNodes, source, stepSource, stepNodes, node.NextNodes);
         }
 
-        protected virtual void BuildBranching(IEnumerable<WorkflowNode> allNodes, DefinitionSourceV1 source, StepSourceV1 stepSource, IEnumerable<AbpWorkflowStepBody> stepBodys, IEnumerable<WorkflowConditionNode> nodes)
+        protected virtual void BuildBranching(IEnumerable<WorkflowNode> allNodes, DefinitionSourceV1 source, StepSourceV1 stepSource, IEnumerable<AbpWorkflowStepDefinition> stepNodes, IEnumerable<WorkflowConditionNode> condNodes)
         {
-            foreach (var nextNode in nodes)
+            foreach (var nextNode in condNodes)
             {
                 var node = allNodes.First(u => u.Key == nextNode.NodeId);
                 stepSource.SelectNextStep[nextNode.NodeId] = "1==1";
@@ -241,7 +261,7 @@ namespace WorkflowDemo.Workflow
                     stepSource.SelectNextStep[nextNode.NodeId] = string.Join(" && ", exps);
                 }
 
-                BuildWorkflow(allNodes, source, stepBodys, node);
+                BuildWorkflow(allNodes, source, stepNodes, node);
             }
         }
     }

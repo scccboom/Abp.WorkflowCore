@@ -10,8 +10,16 @@ using Abp.Runtime.Security;
 
 namespace WorkflowDemo.Web.Host.Startup
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class AuthConfigurer
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
